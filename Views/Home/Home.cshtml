@@ -1,0 +1,49 @@
+@model List<AnActivity>
+
+<div class="jumbotron bg-info text-white text-center">
+    <h1>Welcome @ViewBag.User.Name!</h1>
+</div>
+
+<a href="/activity/new" class="btn btn-outline-info btn-lg mb-4">Add Activity</a>
+
+<table class="table border border-secondary">
+    <thead class="bg-secondary text-white">
+        <tr>
+            <th>Activity</th>
+            <th>Date and Time</th>
+            <th>Duration</th>
+            <th>Event Coordinator</th>
+            <th># of Participants</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(AnActivity m in Model)
+        {
+            <tr>
+                <td><a href="/activity/@m.ActivityId">@m.Title</a></td>
+                <td>@m.StartDate.ToLongDateString() @@ @m.StartTime.TimeOfDay</td>
+                <td>@m.Duration @m.MinHrDay</td>
+                <td>@m.Planner.Name</td>
+                <td>@m.Guests.Count</td>
+                <td>
+                    @if(ViewBag.User.UserId == m.Planner.UserId)
+                    {
+                        <a class="btn btn-warning btn-sm" href="/activity/@m.ActivityId/delete">Cancel</a>
+                    }
+                    else
+                    {
+                        @* Query to see if they are watching *@
+                        if(m.Guests.Any( w => w.UserId == ViewBag.User.UserId))
+                        {
+                            <a class="btn btn-outline-dark btn-sm" asp-action="ToggleParty" asp-route-activityId="@m.ActivityId" asp-route-status="leave">Back Out</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-outline-success btn-sm" asp-action="ToggleParty" asp-route-activityId="@m.ActivityId" asp-route-status="join">RSVP</a>
+                        }
+                    }
+                </td>
+            </tr>
+        }    </tbody>
+</table>

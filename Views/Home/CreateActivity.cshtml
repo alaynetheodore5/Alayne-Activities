@@ -1,0 +1,52 @@
+@model AnActivity
+
+<div class="card">
+    <div class="card-header bg-info text-white">Plan an Activity</div>
+    <div class="card-body">
+        <form action="/activity/create" method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Title:</label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Date:</label>
+                    <input asp-for="StartDate" class="form-control" />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Time:</label>
+                    <input asp-for="StartTime" class="form-control" />
+                    <span asp-validation-for="StartTime" class="text-danger"></span>
+                </div>
+                <div class="row">
+                    @* <div class="col-md-6"> *@
+                        <div class="form-group ml-3">
+                            <label>Duration:</label>
+                            <input asp-for="Duration" class="form-control" />
+                            <span asp-validation-for="Duration" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mt-4 ml-2">
+                            <select id="MinHrDay" name="MinHrDay" class="form-control">
+                                <option value="Minutes">Minutes</option>
+                                <option value="Hours">Hours</option>
+                                <option value="Days">Days</option>
+                            </select>
+                        </div>
+                    @* </div> *@
+                </div>
+            </div>
+        </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <textarea asp-for="Description" class="form-control" ></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <input type="submit" value="Add Activity" class="btn btn-outline-info">
+        </form>
+    </div>
+</div>

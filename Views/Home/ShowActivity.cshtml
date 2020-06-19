@@ -1,0 +1,47 @@
+@model AnActivity
+
+<div class="row">
+    <div class="col-sm-9 offset-sm-2">
+        <div class="card">
+            <div class="card-header bg-info text-white">@Model.Title</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h5>Event Coordinator: @Model.Planner.Name</h5>
+                        <h5>Description:</h5>
+                        <p>@Model.Description</p>
+                    </div>
+                    <div class="col-sm-4 ">
+                        <div class="row ml-4 mb-5">
+                            <ul class="list-group">
+                                <li class="list-group-item bg-secondary text-white">Guests: </li>
+                                @foreach( var w in Model.Guests)
+                                {
+                                    <li class="list-group-item">@w.ActivityGoer.Name</li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="row ml-5">
+                        @if(ViewBag.User.UserId == Model.Planner.UserId)
+                        {
+                            <a class="btn btn-warning btn-sm" href="/activity/@Model.ActivityId/delete">Cancel</a>
+                        }
+                        else
+                        {
+                            @* Query to see if they are watching *@
+                            if(Model.Guests.Any( w => w.UserId == ViewBag.User.UserId))
+                            {
+                                <a class="btn btn-outline-dark btn-sm" asp-action="ToggleParty" asp-route-activityId="@Model.ActivityId" asp-route-status="leave">Back Out</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-outline-success btn-sm" asp-action="ToggleParty" asp-route-activityId="@Model.ActivityId" asp-route-status="join">RSVP</a>
+                            }
+                        }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
